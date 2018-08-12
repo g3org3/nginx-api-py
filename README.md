@@ -18,3 +18,11 @@ git clone https://github.com/g3org3/nginx-api-py.git
 cd nginx-api-py
 bash run.sh > /root/apps/nginx-api-py.log & echo $! > /root/apps/nginx-api-py.pid
 ```
+
+```sh
+#!/bin/bash
+set -e
+apt update
+apt install -y docker.io
+docker run -d --name nginx -p 80:80 -p 443:443 -v /var/run/docker.sock:/tmp/docker.sock:ro jwilder/nginx-proxy
+```
