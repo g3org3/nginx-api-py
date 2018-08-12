@@ -8,7 +8,7 @@ bash user_data.sh
 #!/bin/bash
 set -e
 apt update
-apt install -y nginx python3 python3-pip python3-venv
+apt install -y nginx docker.io python3 python3-pip python3-venv
 ln -s /usr/bin/python3 /usr/bin/python
 ln -s /usr/bin/pip3 /usr/bin/pip
 
