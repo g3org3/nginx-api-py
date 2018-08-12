@@ -1,12 +1,7 @@
 from flask import Flask
+from flask import request
 import subprocess
-import functools
-import json
-
-def compose(*functions):
-  def compose2(f, g):
-    return lambda x: f(g(x))
-  return functools.reduce(compose2, functions, lambda x: x)
+from flask import jsonify
 
 def shell(line):
   try:
@@ -17,6 +12,8 @@ def shell(line):
 
 def isNginxAvailable():
   return shell("which nginx") is not "false"
+def isDefaultPathAvailable():
+  return shell("ls -la /etc/nginx/sites-available/default") is not "false"
 
 app = Flask(__name__)
 
@@ -31,15 +28,51 @@ def hostname():
 @app.route("/nginx")
 def nginx_test():
   res = { "status": 404, "message": "nginx was not found" }
-  if not isNginxAvailable(): return json.dumps(res), 404
+  if not isNginxAvailable(): return jsonify(res), 404
   res['status'] = 200
   res['message'] = "yes!"
-  return json.dumps(res)
+  return jsonify(res)
+
+@app.route("/nginx/start", methods=['POST'])
+def nginx_start():
+  res = { "status": 404, "message": "nginx was not found" }
+  if not isNginxAvailable(): return jsonify(res), 404
+  shell("nginx")
+  res['status'] = 200
+  res['message'] = "yes!"
+  return jsonify(res)
+
+@app.route("/nginx/stop", methods=['POST'])
+def nginx_stop():
+  res = { "status": 404, "message": "nginx was not found" }
+  if not isNginxAvailable(): return jsonify(res), 404
+  shell("nginx -s stop")
+  res['status'] = 200
+  res['message'] = "yes!"
+  return jsonify(res)
+
+@app.route("/nginx/reload", methods=['POST'])
+def nginx_reload():
+  res = { "status": 404, "message": "nginx was not found" }
+  if not isNginxAvailable(): return jsonify(res), 404
+  shell("nginx -s reload")
+  res['status'] = 200
+  res['message'] = "yes!"
+  return jsonify(res)
+
+@app.route("/nginx/conf", methods=['POST'])
+def nginx_conf_create():
+  res = { "status": 404, "message": "nginx was not found" }
+  if not isNginxAvailable(): return jsonify(res), 404
+  if not isDefaultPathAvailable(): return jsonify(res), 404
+  conf = request.get_json()['conf']
+  shell("echo '"+conf+"' /etc/nginx/sites-available/default")
+  return 
 
 @app.route("/nginx/conf")
 def nginx_conf():
   res = { "status": 404, "message": "nginx was not found" }
-  if not isNginxAvailable(): return json.dumps(res), 404
+  if not isNginxAvailable(): return jsonify(res), 404
   conf = shell('cat /etc/nginx/sites-available/default')
   return conf
 
