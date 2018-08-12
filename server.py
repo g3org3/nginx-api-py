@@ -37,7 +37,7 @@ def nginx_test():
   return json.dumps(res)
 
 @app.route("/nginx/conf")
-def nginx_test():
+def nginx_conf():
   res = { "status": 404, "message": "nginx was not found" }
   if not isNginxAvailable(): return json.dumps(res)
   conf = shell('cat /etc/nginx/sites-available/default')
