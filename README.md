@@ -1,5 +1,6 @@
 ```sh
-wget 
+#!/bin/bash
+wget https://raw.githubusercontent.com/g3org3/nginx-api-py/master/user_data.sh
 bash user_data.sh
 ```
 
