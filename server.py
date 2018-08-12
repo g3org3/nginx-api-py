@@ -26,7 +26,7 @@ def hello():
 
 @app.route("/hostname")
 def hostname():
-  return compose(shell)("hostname")
+  return shell("hostname")
 
 @app.route("/nginx")
 def nginx_test():
@@ -34,6 +34,16 @@ def nginx_test():
   if not isNginxAvailable(): return json.dumps(res)
   res['status'] = 200
   res['message'] = "yes!"
+  return json.dumps(res)
+
+@app.route("/nginx/conf")
+def nginx_test():
+  res = { "status": 404, "message": "nginx was not found" }
+  if not isNginxAvailable(): return json.dumps(res)
+  conf = shell('cat /etc/nginx/sites-available/default')
+  res['status'] = 200
+  res['message'] = "yes!"
+  res['conf'] = conf
   return json.dumps(res)
 
 if __name__ == '__main__':
