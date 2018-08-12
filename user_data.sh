@@ -1,9 +1,3 @@
-```sh
-wget 
-bash user_data.sh
-```
-
-```sh
 #!/bin/bash
 set -e
 apt update
@@ -16,4 +10,3 @@ cd /root/apps
 git clone https://github.com/g3org3/nginx-api-py.git
 cd nginx-api-py
 bash run.sh > /root/apps/nginx-api-py.log & echo $! > /root/apps/nginx-api-py.pid
-```

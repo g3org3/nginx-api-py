@@ -10,7 +10,7 @@ def compose(*functions):
 
 def shell(line):
   try:
-    output = subprocess.check_output(line.split(' '), shell=True)
+    output = subprocess.check_output(line.split(' '))
     return output.strip()
   except:
     return "false"
