@@ -9,8 +9,8 @@ sudo curl -L https://github.com/docker/compose/releases/download/1.22.0/docker-c
 chmod +x /usr/local/bin/docker-compose
 
 curl https://zeit.co/custom_error > /usr/share/nginx/html/custom_error.html
-cat /usr/share/nginx/html/custom_error.html > /usr/share/nginx/html/custom_404.html
-cat /usr/share/nginx/html/custom_error.html | sed s.404.502.g > /usr/share/nginx/html/custom_50x.html
+cat /usr/share/nginx/html/custom_error.html > /usr/share/nginx/html/404.html
+cat /usr/share/nginx/html/custom_error.html | sed s.404.502.g > /usr/share/nginx/html/50x.html
 
 mkdir /root/apps
 cd /root/apps
