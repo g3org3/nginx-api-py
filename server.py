@@ -66,8 +66,10 @@ def nginx_conf_create():
   if not isNginxAvailable(): return jsonify(res), 404
   if not isDefaultPathAvailable(): return jsonify(res), 404
   conf = request.get_json()['conf']
-  shell("echo '"+conf+"' /etc/nginx/sites-available/default")
-  return 
+  f = open("/etc/nginx/sites-available/default", "w")
+  f.write(conf)
+  f.close()
+  return "true"
 
 @app.route("/nginx/conf")
 def nginx_conf():
